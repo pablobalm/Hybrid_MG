@@ -1,0 +1,568 @@
+\documentclass[journal, final, letterpaper]{IEEEtran}
+
+% packages
+\usepackage{fixltx2e}
+\usepackage{amsmath}
+\usepackage[font=footnotesize,caption=false]{subfig}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{tikz,pgfplots}
+\usepackage{cite}
+\usepackage[abs]{overpic}
+\usepackage[applemac]{inputenc}
+\usepackage{algorithmic}
+\usepackage[caption=false,font=footnotesize]{subfig}
+\usepackage{url}
+\usepackage{siunitx}
+\usepackage{cellspace}
+\usepackage[nolist]{acronym}
+
+% Mathematical Tool
+\usepackage{amssymb,amsfonts,commath}
+\usepackage[bb=boondox]{mathalfa}
+\usepackage{mathdots}
+
+
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@makecaption}
+  {\scshape}
+  {}
+  {}
+  {}
+\makeatletter
+\patchcmd{\@makecaption}
+  {\\}
+  {.\ }
+  {}
+  {}
+  \makeatother
+\def\tablename{Table}
+% circuits
+\usepackage[americanvoltages,siunitx]{circuitikz}
+
+
+% TIKZ package
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{every axis/.append style={line width=1pt}}
+\usetikzlibrary{shapes, fit, decorations.markings, matrix, plotmarks, positioning, fit, spy, patterns, shadows, calc, backgrounds, arrows}
+\usetikzlibrary{arrows.meta}
+\usepackage{tikzscale}
+\usepackage{subfig}
+
+\pgfplotsset{every tick label/.append style={font=\tiny}}
+
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+\definecolor{mycolor4}{rgb}{0.49400,0.18400,0.55600}%
+\definecolor{mycolor5}{rgb}{0.46600,0.67400,0.18800}%
+\definecolor{mycolor6}{rgb}{0.30100,0.74500,0.93300}%
+\definecolor{mycolor7}{rgb}{0.63500,0.07800,0.18400}%
+
+%\pgfplotsset{every axis/.append style={
+%                    axis x line=middle,    % put the x axis in the middle
+%                    axis y line=middle,    % put the y axis in the middle
+%                    axis line style={<->}, % arrows on the axis
+%                    label style={font=\tiny},
+%                    tick label style={font=\tiny}  
+%                    }}
+
+% enumerate and equations
+\usepackage{enumerate}
+%\AtBeginEnvironment{align}{\setcounter{subeqn}{0}}% Reset subequation number at start of align
+\newcounter{subeqn} \renewcommand{\thesubeqn}{\theequation\alph{subeqn}}%
+\newcommand{\subeqn}{%
+  \refstepcounter{subeqn}% Step subequation number
+  \tag{\thesubeqn}% Label equation
+}
+
+
+% theorems
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{alg}{Algorithm}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{problem}{Problem}
+
+% Create shorthand definitions
+\newcommand{\ts}[1]{{\textnormal{#1}}}
+\newcommand{\diff}[2]{{\frac{d #1}{d #2}}}
+\newcommand{\pdiff}[2]{{\frac{\partial #1}{\partial #2}}}
+\newcommand{\ie}{\emph{i.e.}\ }
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\cf}{\emph{c.f.}\ }
+\newcommand{\Nset}{\mathbb{N}}
+\newcommand{\Rset}{\mathbb{R}}
+\newcommand{\Cset}{\mathbb{C}}
+\newcommand{\mc}{\mathcal}
+\newcommand{\mb}{\mathbf}
+\newcommand{\mbb}{\mathbb}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\ms}{\mathscr}
+\newcommand\st{\ \colon\ }
+
+
+% Activate selected proofs
+\newif\ifproves
+\provestrue
+
+\allowdisplaybreaks
+
+\begin{acronym}
+	\acro{MPC}{Model Predictive Control}
+	\acro{PV}{Photo-voltaic}
+	\acro{DG}{Distributed Generation}
+	\acro{DS}{Distributed Storage}
+	\acro{DER}{Distributed Energy Resources}
+	\acro{BIC}{Bounded Integral Controller}
+	\acro{VCS}{Voltage controlled source}
+	\acro{MG}{Micro-grid}
+	\acro{OPF}{Optimal Power Flow}
+	\acro{SoC}{State of Charge}
+	\acro{WT}{Wind Turbine}
+	\acro{PCC}{Point of Common Coupling}
+	\acro{OCP}{Optimal Control Problem}
+	\acro{DAS}{Differential Algebraic System}
+	\acro{DAE}{Differential Algebraic Equation} 
+\end{acronym}
+%
+\interdisplaylinepenalty=2500
+
+% BiBTeX
+\bibliographystyle{IEEEtran}
+
+%
+%\newcommand{\myreferences}{/Users/Pablo/Dropbox/Reports/library}
+\newcommand{\myreferences}{/Users/prbalm/Dropbox/Reports/library.bib}
+%\newcommand{\myreferences}{library}
+%\newcommand{\myreferences}{extracted}
+
+
+\makeatletter
+\renewcommand*\env@matrix[1][c]{\hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols #1}}
+\makeatother
+
+
+\begin{document}
+
+\title{Distributed control of Hybrid microgrids}
+
+% Author names
+\author{Pablo R. Baldivieso-Monasterios \IEEEmembership{Member,
+      IEEE}, Andrei Braitor \IEEEmembership{Member,
+      IEEE}, George C. Konstantopoulos, \IEEEmembership{Member,
+      IEEE}
+\thanks{P.~R.~Baldivieso-Monasterios, Andrei Braitor, and G.~C.~Konstantopoulos are with the Department of Automatic Control \& Systems Engineering,
+      University of Sheffield, Mappin Street, Sheffield S1 3JD, UK
+      (e-mail: \texttt{\{p.baldivieso,a.braitor, g.konstantopoulos\}@shef.ac.uk}).}}
+
+%\markboth{IEEE Transactions on Energy Conversion}{Baldivieso-Monasterios \& Konstantopoulos \& Alexandridis: Model based advanced energy conversion in $\mu\ts{Grids}$}
+
+\maketitle
+
+\begin{abstract}
+Many things happen here
+\end{abstract}
+%
+\begin{IEEEkeywords}
+Micro-grids, Droop free control, Optimal control, secondary control
+\end{IEEEkeywords}
+%
+\section{Introduction}
+\label{sec:introduction}
+
+\underline{\emph{Notation}}: The $n-$dimensional \emph{sphere} and \emph{torus} are denoted as $\mbb{S}^n$ and $\mbb{T}^{n}$ respectively. The identity matrix in $\Rset^{n\times n}$ is $\mbb{I}_n$, similarly a complex structure in $\Rset^{2n}$ is \[\mbb{J} =
+  \begin{bmatrix*}[r]
+    0~ &-\mbb{I}_n \\
+    \mbb{I}_n & 0~ 
+  \end{bmatrix*}
+  .\]A $n\times m$ matrix with only ones and zeros entries are denoted $\mbb{1}_{n\times m}$ and $\mbb{0}_{n\times m}$ respectively; subindices are omitted when dimensions can be understood from context.   
+\begin{definition}
+The system $\dot{x} = f(x,u)$ with outputs $y = h(x)$ is passive if there exists a $C^{1}$ function $V:\Rset^n\to\Rset_{\geq0}$ such that
+%
+\begin{equation*}
+ \dot{V} = \frac{\partial V}{\partial x}f(x,u) \leq y^\top u,\quad \forall (x,u)\in\Rset^{n}\times\Rset^{m}.
+\end{equation*}
+% 
+\label{def:passivity}	
+\end{definition}
+
+%%
+%%
+
+%
+%
+\section{\ac{MG} modelling}
+\label{sec:mg_modelling}
+%%
+%%
+
+\begin{assumption}[AC \ac{MG} interconnection] The \ac{MG} components satisfy:
+\begin{enumerate}[i)]
+	\item The inverters, lines, and loads are connected to each other via a $Y$ topology.
+	\item The graph $\mc{G} = (\mc{V},\mc{E})$ has only one connected component. 
+\end{enumerate}
+\label{asssump:MG_connected}
+\end{assumption}
+%
+The network of interlinking DC/AC converters obeys the following differential-algebraic dynamics for $\mu\in\mc{V}$
+%
+\begin{subequations}
+  \begin{align}
+    C_\mu \diff{V_\mu}{t} & = -\frac{1}{R_\mu}V_\mu + g_\mu(P_\mu^\ts{in},V_\mu) - \frac{1}{2}m_\mu^\top i_\mu\\
+    L_{f,\mu} \diff{i_{f,\mu}}{t} &= -Z_{f,\mu}(\omega_\mu) i_{f,\mu} - v_{f,\mu} + \frac{1}{2}V_\mu m_\mu\\
+    C_{f,\mu} \diff{v_{f,\mu}}{t} &= -Y_{f,\mu}(\omega_\mu) v_{f,\mu} + i_{f,\mu} - i_{\mu}\\
+    L_\mu \diff{i_{\mu}}{t} &= -Z_\mu(\omega_\mu) i_{\mu} + v_{f,\mu} -T_{dq}(\alpha_\mu)v_{\mu}\\
+    \diff{\alpha_\mu}{t}  &= \omega_\mu\\
+    L_\mc{E}\diff{i_\mc{E}}{t} & = -r_\mc{E}i_\mc{E} + \mc{B}v\\
+    0  &= T^{-1}(\alpha_\mu)i_\mu - \mc{B}_\mu\otimes\mbb{I}_3 i_\mc{E} - i_{L,\mu}\label{eq:alg_eq}
+\end{align}
+\label{eq:mg_AC_model}
+\end{subequations}
+%
+In this model, the connecting voltages $v = (v_1,\ldots,v_M)\in\Rset^{3M}$ represent algebraic variables; note that these do not appear directly in the algebraic equation~\eqref{eq:alg_eq} but appear in its derivative which makes the system at least of index 1. The differential variables contain both local variables $(V_\mu,i_{f,\mu},v_{f,\mu},i_\mu,\alpha_\mu)\in\Rset^{7}\times\mbb{S}^{1}$ for each $\mu\in\mc{V}$ and network variables $i_\mc{E}\in\Rset^{3M_\mc{E}}$ which correspond to DC voltage, filter currents, filter voltages, connection currents, and line currents respectively. The current drawn by each load $i_{L,\mu}$ appears in the algebraic constraint which relates the input from a source $T_{dq}^{-1}i_{mu}$ and the network contribution $\mc{B}_{\mu}i_\mc{E}$ where $\mc{B}_\mu$ correspond to the node-edge incidence matrix  $\mu^\ts{th}$ row. The controllable inputs are given by $u_\mu = (m_u,\omega_\mu)$ for each $\mu\in\mc{V}$ and correspond to each converter modulation indices and frequencies at each node. The exogenous inputs are given the load consumption $i_L\in\Rset^{3M}$, and renewable input power $P \in \Rset^{M}$.
+
+
+
+The optimal control problem, in its most general form, can then be casted as
+%
+\begin{equation}
+	V^0_T(z,d) = \min\limits_{u}\int_0^T\ell(z,u)dt 	
+\label{eq:ocp_cost}
+\end{equation}
+%
+subject to 
+%
+\begin{subequations}
+\begin{align}
+	u\colon &[S,T]\to\Rset^m\ts{ measurable}\\
+	E\dot{z}& = h(z,u,d),\quad \ts{a.e.}\\
+	z(t) &\in\mbb{Z}; \quad u(t)\in\mbb{U}\quad \ts{a.e.}
+\end{align}
+\label{eq:ocp_constraints}
+\end{subequations}
+%
+
+
+\[\bar{v} = v_I + A_C i +M\sin\sigma \]
+
+\[\theta_i = \arctan\frac{v_{q,i}}{v_{d,i}} \]
+
+\[\dot{\theta}_i =\frac{\dot{v}_{q,i}v_{d,i} - \dot{v}_{d,i}v_{q,i}}{v_{d,i}^2+v_{q,i}^2}\]
+
+\[
+J\dot{v} = \omega v
+\]
+
+
+the solution of this equation 
+\[v = \bar{V}\xi(\delta) - A_Ci - M\sin\sigma\]
+
+
+
+\subsection{Model in the $abc$ framework}
+\label{sec:model_abc}
+%
+
+
+The inverter dynamics are
+%
+\begin{subequations}
+\begin{align}
+\diff{\varphi_i}{t} =& -r_i L_i^{-1}\varphi_i - C_i^{-1}q_i + u_{V,i}\xi_i(\alpha_i),\label{eq:dyn_line_ii}\\
+\diff{\alpha_i}{t} =& u_{\alpha,i},\label{eq:dyn_line_ai}
+\end{align}
+\label{eq:dyn_inv_c_abc}	
+\end{subequations}
+%
+where $\xi_i\colon\mbb{S}^1\to\Rset^3$ is a function defined on the unit circle such that $\xi_i(\alpha_i) = (\sin{\alpha_i},\sin{(\alpha_i - \frac{2\pi}{3})},\sin{(\alpha_i + \frac{2\pi}{3})})\in\Rset^3$ for each $i\in\mc{V}$. The control inputs are $u = (u_{V,i},u_{\alpha,i})\in \Rset^2$ and correspond to the amplitude and frequency of the inverter output voltage. 
+
+The model of the interconnection between two nodes $i,j\in\mc{V}$ in the $abc$ framework is
+%
+\begin{subequations}
+\begin{align}
+\diff{q_i}{t} =& -g_i C_i^{-1}q_i + i_i - i_e -i_{Li},\label{eq:dyn_line_vi}\\
+\diff{q_j}{t} =& -g_j C_j^{-1} q_j + i_j + i_e-i_{Lj},\label{eq:dyn_line_vj}\\
+\diff{\varphi_e}{t} =& -r_e L_e^{-1} \varphi_e + v_j - v_j,\label{eq:dyn_line_ie}
+\end{align}
+\label{eq:dyn_line_abc}	
+\end{subequations}
+%
+where the states for each $i\in\mc{V}$ and $e\in\mc{E}$ are $q_i\in\Rset^3$ and $\varphi_e\in\Rset^3$ respectively; these represent capacitor charge at each node and inductor fluxes through the lines. 
+%
+%
+\begin{subequations}
+\begin{align}
+  \diff{\varphi }{t} & = -r \pdiff{H}{\varphi } + u_E,\label{eq:lines_pH_dyn}\\  
+  y_E & = \pdiff{H}{\varphi },\label{eq:lines_pH_out}
+\end{align}
+\label{eq:lines_pH_model} 
+\end{subequations}
+%
+where $\varphi  = (\varphi_e)_{e\in\mc{E}}$ is the collection of all the fluxes through the \ac{MG} interconnection lines; the inputs are the voltage across the line, and output the current flowing through it. Similarly for all \ac{MG} nodes
+%
+\begin{subequations}
+\begin{align}
+  \diff{q_{I}}{t} & = -g_{I}\pdiff{H}{q } + G_Iu_I,\label{eq:node_pH_dyn}\\  
+  y_I & = G_I^\top\pdiff{H}{q },\label{eq:node_pH_out}
+\end{align}
+\label{eq:node_pH_model} 
+\end{subequations}
+%
+where $q  = (q_i)_{i\in\mc{V}}$ is a vector of charges for the entire network. The input matrix is $G_I^\top = [\mbb{I}_{3M}~ -\mbb{I}_{3M}~ -B]$, and associated inputs are $u_I = (i ,i_L,i_E)$ the current injected from the controlled \ac{DER}s, drawn by the local loads, and the current circulating through the lines. These inputs induce the following outputs: $y_I = (v ,-v ,-Bv )$ which are the voltages at each node, and voltage differences. The Hamiltonian for the network, \ie for all nodes $i\in\mc{V}$ and lines $e\in\mc{E}$, is a quadratic function of the states 
+%
+\begin{equation}
+  H = \frac{1}{2}\bigl ( q^\top C^{-1}q +\varphi^\top L^{-1}\varphi \bigr ) 
+\label{eq:Hamiltonian_MG}  
+\end{equation}
+%
+The feedback interconnection between~\eqref{eq:node_pH_model} and~\eqref{eq:lines_pH_model}, which is also a port-Hamiltonian system \cite{Cervera2007a}, can be characterised by $u_E = - y_{3I}$ and $u_{3I} = y_E$ yielding
+%
+\begin{subequations}
+\begin{align}
+  \diff{\tilde{x}}{t} & = \underbrace{\begin{bmatrix}-g & -B^\top\\ B & -r \end{bmatrix}}_{J-R} \pdiff{H}{\tilde{x}} + G\begin{bmatrix} i\\i_L\end{bmatrix} \\
+   y &= G^\top \pdiff{H}{\tilde{x}}
+\end{align}
+\label{eq:line_node_interconnection}	
+\end{subequations}
+%
+where 
+\[
+G = \begin{bmatrix}\mbb{I}_{3M} & -\mbb{I}_{3M}\\\mbb{0}_{3M_E \times 3M } & \mbb{0}_{3M_E \times 3M} \end{bmatrix},
+\]
+and the joint state vector $\tilde{x} = (q,\varphi)$. The available inputs $u= (i,i_L)$, and respective outputs, allow us to interconnect the obtained \ac{MG} model to different types of loads via the input-output pair $(i_L,-\pdiff{H}{q})$. 
+
+In this paper we assume that each \ac{DER} is in closed-loop with their respective primary controllers [CITE PAPERS FROM THE GROUP], as a result the current injected by each \ac{DER} $i\in\mc{V}$ can be expressed as a controlled $3-$phase current source
+%
+\begin{subequations}
+\begin{align}
+  \diff{\alpha_i}{t} =& \omega_i,\label{eq:current_der_dyn}\\
+  i_i = & \xi_i(\alpha)I_i 
+\end{align}
+\label{eq:current_der}	
+\end{subequations}
+% 
+ The controlled variables are the amplitude and frequency $u_i = (I_i,\omega_i)$; for a constant frequency, the resulting angle is a linear function on the circle, \ie $\alpha_i(t) = \mod_{2\pi}(\alpha_i(0)+\omega_it)$. The collection of all angles $\alpha = (\alpha_i)_{i\in\mc{V}}$ are defined in the $M-$dimensional \emph{torus} $\mbb{T}^M$; whereas the collection of amplitudes and frequencies are $I = (I_i)_{i\in\mc{V}}$ and $\omega = (\omega_i)_{i\in\mc{V}}$ are defined on $\Rset^{2M}$. Interconnecting \eqref{eq:current_der} and~\eqref{eq:line_node_interconnection} yields the overall model 
+%
+\begin{subequations}
+\begin{align}
+  \begin{bmatrix}	\diff{\tilde{x}}{t}\\\diff{\alpha}{t}  \end{bmatrix} &= \begin{bmatrix} J-R & \mbb{0}\\\mbb{0} & \mbb{0}\end{bmatrix} \begin{bmatrix} \pdiff{H}{\tilde{x}}\\\pdiff{H}{\alpha}\end{bmatrix} +G(\alpha)\begin{bmatrix}I\\\omega\\ i_L\end{bmatrix}\\
+  y &= G(\alpha)^\top\begin{bmatrix} \pdiff{H}{\tilde{x}}\\\pdiff{H}{\alpha}\end{bmatrix}.
+\end{align}
+\label{eq:MG_model}	
+\end{subequations}
+%
+ The resulting inputs controllable inputs are $u = (I,\omega)$ which corresponds to amplitudes and frequencies from each \ac{DER}. As mentioned lines above, the remaining inputs are used to interface the \ac{MG} to local loads. The input matrix is state dependent
+ \[
+ G(\alpha) = \begin{bmatrix} \xi(\alpha) & \mbb{0}_{3M\times M} & -\mbb{I}_{3M}\\ \mbb{0}_{3M_E\times M} & \mbb{0}_{3M_E\times M} & \mbb{0}_{3M_E\times 3M}\\\mbb{0}_{M\times M} & \mbb{I}_{M} & \mbb{0}_{M\times 3M}\end{bmatrix},
+ \]
+ %
+and its associated outputs are $y = (\xi(\alpha)^\top\pdiff{H}{q},\pdiff{H}{\alpha},-\pdiff{H}{q})$. The modified Hamiltonian for model~\eqref{eq:MG_model} incorporates an extra term related to the angle
+%
+\begin{equation}
+  H = \frac{1}{2}\bigl ( q^\top C^{-1}q +\varphi^\top L^{-1}\varphi  \bigr ) + h^\top(\mbb{1} - \cos\alpha)
+\label{eq:Hamiltonian_MG}  
+\end{equation}
+%
+ where $h\in\Rset^M$ is a vector containing energy coefficients. The resulting state vector $x = (\tilde{x},\alpha)$ is defined on the set $\mc{X} = \Rset^{3(M+M_E)}\times\mbb{T}^M$. Furthermore, for constant inputs, the system is time-varying, the sinusoidal characteristics of the input map propagates through the linear dynamics which implies that the states $x\in\Rset ^{3(M+M_E)}$ have sinusoidal behaviour. As a result, we can define amplitudes, angles, and frequencies at each node via the operators 
+ %
+\begin{equation}
+ \theta_i = \ts{Ang}(q_i)\in\mbb{S}^1,\quad V_i = C_i^{-1}\ts{Rms}(q_i)\in\Rset.
+\label{eq:angle_rms}  
+\end{equation}
+%
+and the relation 
+%
+\begin{equation}
+	\theta_i(t) = \theta_i(0) + \int_0^t\diff{\theta_i}{\tau}(\tau)d\tau 
+\label{eq:angle}  
+\end{equation}
+%
+ The resulting nonlinear system has its nonlinearity appearing through the input
+ 
+
+ 
+ In open loop format, this system is of non-minimum phase 
+%
+\subsection{Control objectives}
+\label{sec:control_objectives}
+%
+
+
+The controller objectives are twofold: achieve frequency synchronisation and to keep the voltages within a prescribed range. 
+
+A precise definition of synchronisation can be found in  \cite{Dorfler2014}:
+ %
+ \begin{definition}
+A solution $ \theta:\Rset_+\to \mbb{T}^M$ achieves \emph{Frequency Synchronisation} if all frequencies $\diff{ \theta_i}{t}(t)$ converge to a common constant frequency $\omega^\ts{sync}\in\Rset$ as $t\to\infty$.
+ \label{def:freq_sync}	
+ \end{definition}
+%
+\begin{definition}
+For any $\gamma\in[0,\pi)$ and a graph $\mc{G} = (\mc{V},\mc{E})$, let $\bar{\Delta}_{\mc{G}}(\gamma) = \{ \theta\colon | \theta_i -  \theta_j|\leq\gamma,~i:j\in\mc{E}\}\subset\mbb{T}^M$. A solution $\alpha:\Rset_+\to \mbb{T}^M$ is \emph{Phase Cohesive}  if there exists $\gamma\in[0,\pi)$ such that $ \theta(t)\in\bar{\Delta}_\mc{G}$ for all $t\geq 0$.
+\label{def:phase_cohes}	
+\end{definition}
+
+%
+
+
+
+Transforming the system into a rotating frame with constant angular velocity $\omega^\ts{com}$, the quantity 
+\[
+\delta_i(t) = \alpha_i(0) + \int_0^t(\omega_i(\tau) -\omega^\ts{com})d\tau 
+\]
+measures the angle deviation from node $i$ with respect to that of the reference frame. Following definition 
+\cite{Simpson-Porco2013}
+
+
+% 
+The resulting \ac{DAS} can be defined as
+
+
+
+
+
+
+when new elements are connected to the network, each inverter connects to the network via a model 
+
+This section presents the model of the \ac{MG} 
+%
+\begin{subequations}
+\begin{align}
+C\diff{v}{t} =& -(Y+L_E) v + g(\delta)i_d - i_L,\label{eq:dyn_global_voltages}\\
+T\diff{\omega}{t} =& -\omega+\omega^\ts{d} + M_\phi \sin\mb{\phi},\label{eq:dyn_global_frequency}\\
+M\diff{\phi}{t} =& K_i[\cos\phi]L_C\omega,\label{eq:dyn_global_bic}\\
+\diff{\delta}{t} =& \omega - \mbb{1}\omega^\ts{com},\label{eq:dyn_global_angle}
+\end{align}
+\label{eq:dyn_global}	
+\end{subequations}
+%
+This model captures the voltage, frequency, and angle dynamics, as well as the BIC controller used to promote frequency synchronisation. The overall state is $x = \{(v_{d,i},v_{q,i},\omega_i,\delta_i,\phi_i)\}_{i\in\mc{V}}$ which is the aggregation of the states from all the members of the network. The topology of both physical and control networks is represented through the Laplacian matrices $L $ and $L_{C}$; the former encapsulates the information on the dynamical interconnections, \ie the admittance matrix, whereas the latter is used as a mechanism to promote frequency synchronisation. The inputs of the \ac{MG} are the current injections from each node $u = \{i_{d,i},\omega^{d}_{i}\}_{i\in\mc{V}}$.
+
+The model is expressed in the global $dq0$ framework rotating at a constant speed $\omega^c$. The synchronisation frequency is $\omega_c$ which may not be equal to the desired frequency $\omega_d$. In this paper, the primary controller acts on both the current frequency and its 
+
+
+The \ac{MG} synchronised motion can be defined as all the nodes oscillating at the same constant frequency $\omega^*\in\Rset$ such that $\alpha_i(t) =\omega^*t$ and a constant voltage amplitude for all $i\in\mc{V}$. As a result, and from following~\eqref{eq:dyn_global_angle}, the resulting angle satisfies $\delta(t) = t(\omega^* - \omega^\ts{com})\mbb{1} + \alpha(0)$ and if the common $dq0$ frequency is the synchronised one, then $\delta(t) = \alpha(0)$. A direct consequence of setting $\omega = \omega^*\mbb{1}$, is that $\omega\in\ker{L_C}$, which implies $\phi$ achieving an equilibrium value $\phi^{e}\in\mbb{T}^{M}$. Furthermore, $\diff{\omega}{t} = 0$ yielding
+%
+\begin{align*}
+	M\omega^* &= \mbb{1}^\top\omega^{d} + M_\phi\mbb{1}^\top\sin\phi\\
+	\omega^* & \leq  \frac{1}{M} \mbb{1}^\top\omega^{d} + M_\phi
+\end{align*}
+%
+The synchronisation frequency is bounded from above by the frequency set-points. On the other hand, the current inputs are determined by the desired voltage:
+%
+\[
+i_{d} = g(\alpha(0))^\top((Y+L ) v + h_L(v))
+\]
+where $h_L(v)$ characterises the, possibly nonlinear, relationship between load voltages and currents. 
+
+
+\begin{assumption}[Balanced \ac{MG}]
+The \ac{MG} is a balanced power system: for all $i\in\mc{V}$, the voltage and current associated to that node satisfy $\mbb{1}_3^\top v_i = 0$ and $\mbb{1}_3^\top i_i = 0$.
+\label{asssump:MG_balanced}
+\end{assumption}
+
+\begin{lemma}[Power computations in the $abc$ framework]
+	Suppose Assumption~\ref{asssump:MG_balanced} holds. The $3$-phase active and reactive power are given by\footnote{$\times$ is the standard cross product in $3$ dimensions.}
+	\begin{equation}
+		P = v^\top i;\quad Q = \frac{\sqrt{3}}{3}(\mbb{1}_3\times v)^\top i.
+	\end{equation}
+	for any $3$-phase voltage $v$ and current $i$. 
+\label{lem:power_computation}
+\end{lemma}
+
+The current demanded by the load, $i_{l}\in\Rset^{3}$, depends on the active power, reactive power $S_l = (P_l,Q_l)$
+%
+\begin{equation}
+  	C_{ll}\frac{dv_{l}}{dt}= -G_{ll} v_{l} - h_l(v_l,S_l) + B_l^\top\mb{i}_{E},
+\label{eq:load_voltage}
+\end{equation}
+%
+and $h_l\colon\Rset^{3}\times\Rset^{2}\rightarrow\Rset^{3}$ is a function of load power and voltage.
+%
+\begin{lemma}
+	Suppose Assumption~\ref{asssump:MG_balanced} holds. For constant power loads, $S_l=(P_l,Q_l)\in\Rset^{2}$, the mapping $v\mapsto h(v,S_l)$ is well defined for all $v\in\mbb{V}= \{v\in\Rset^3\colon \ts{Rms}(v) \neq 0\}$ where
+	%
+	\begin{equation}
+		h_l(v_l) = \frac{1}{\ts{Rms}(v_l)}T_\ts{dq}^\top(\ts{Ang}(v_l)).
+	\label{eq:cpl_current}  
+	\end{equation}
+	%
+	\label{lem:cpl_current}
+\end{lemma}
+
+\bibliography{\myreferences}
+\appendix
+%
+%
+\subsection{Proof of Lemma~\ref{lem:power_computation}}
+\label{sec:proof1}
+%
+%
+Given the voltage and current in the $abc$ framework, \ie $v_\ts{abc},i_\ts{abc}\in\Rset^3$ with angles $\alpha(t)$ for the voltage and $\beta(t) = \alpha(t) + \delta(t)$ for the current, and the time varying coordinate transformation $T_\ts{dq}(\sigma(t))$. The expressions of these in the $\ts{dq0}$ framework are $v_\ts{dq} = (v_d,v_q,0) = T_\ts{dq}(\sigma(t))v_\ts{abc}$ and $i_\ts{dq} = (i_d,i_q,0)=T_\ts{dq}(\sigma(t))i_\ts{abc}$ when the system is balanced. The corresponding power expressions are $P_i = \frac{3}{2}(v_di_d + v_qi_q)$ for the active power and $Q_i = \frac{3}{2}(v_qi_d - v_di_q)$. Expressing these in matrix form:
+%
+\begin{align*}
+	P = \frac{3}{2}v_\ts{dq}^\top i_\ts{dq}; && Q = \frac{3}{2}v_\ts{dq}^\top\underbrace{\begin{bmatrix}0 &-1 & 0\\1 & 0 & 0\\0& 0& 1\end{bmatrix}}_{\Xi^*} i_\ts{dq}
+\end{align*}
+%
+The power, active and reactive, is invariant under coordinate transformations $P_\ts{abc} = P_\ts{dq}$ and $Q_\ts{abc} = P_\ts{dq}$. 
+%
+\begin{align*}
+	P &= \frac{3}{2}v_\ts{abc}^\top T_\ts{dq}(\sigma(t))^\top T_\ts{dq}(\sigma(t)) i_\ts{abc};\\  
+	Q &= \frac{3}{2}v_\ts{dq}^\top T_\ts{dq}(\sigma(t))^\top\Xi^*T_\ts{dq}(\sigma(t)) i_\ts{abc}
+\end{align*}
+%
+Since $T_\ts{dq}(\sigma(t))$ satisfies, $\frac{3}{2}T_\ts{dq}(\sigma(t))^\top T_\ts{dq}(\sigma(t)) = \mb{I}_3 + k\mbb{1}_{3\times 3}$ and $\frac{3}{2}T_\ts{dq}(\sigma(t))^\top \Xi^*T_\ts{dq}(\sigma(t)) = \frac{\sqrt{3}}{3}\Xi + k\mbb{1}_{3\times 3}$ with $\Xi$ skew symmetric such that
+%
+\begin{equation*}
+  \Xi = \begin{bmatrix} 0&-1 & 1\\ 1& 0& -1\\ -1 &-1 &0\end{bmatrix}
+\end{equation*}
+% 
+This matrix defines the vector product in $3$ dimensions with the unity vector , \ie $i_\ts{abc}\times\mbb{1}_3 = \Xi i_\ts{abc}$. Because the system is balanced, we obtain $\mbb{1}_{3\times 3}i_\ts{abc} = \mb{0}$, resulting in the expressions for the active and reactive power
+%
+\begin{align*}
+	P = v_\ts{abc}^\top i_\ts{abc}; && Q = \frac{\sqrt{3}}{3}v_\ts{abc}^\top(i_\ts{abc}\times\mbb{1}_{3})
+\end{align*}
+%
+Using the properties of the triple product yield the desired expressions
+\begin{align*}
+	P = v_\ts{abc}^\top i_\ts{abc}; && Q = \frac{\sqrt{3}}{3} (\mbb{1}_{3} \times v_\ts{abc})^\top i_\ts{abc}
+\end{align*}
+%
+\subsection{Proof of Lemma~\ref{lem:cpl_current}}
+\label{sec:proof2}
+%
+%
+Given constant values for the active and reactive power $(P,Q)\in\Rset^{2}$, from Assumption~\ref{asssump:MG_balanced} and Lemma~\ref{lem:power_computation}, the powers can be expressed in matrix form as follows
+%
+\begin{equation*}
+  \begin{bmatrix}P\\Q\\0\end{bmatrix} = \underbrace{\begin{bmatrix}v_\ts{abc}^\top\\\frac{\sqrt{3}}{3} (\mbb{1}_{3} \times v_\ts{abc})^\top\\\frac{1}{2}\mbb{1}_3^\top\end{bmatrix}}_{\tilde{h}(v_\ts{abc})} i_\ts{abc}
+\end{equation*}
+%
+The transformation $\tilde{h}(v_l)$ maps the $3-$phase currents to $\Rset^{3}$. This linear transformation is invertible for all $v_l\in\mbb{V}_{l}$. Indeed, for any $v_l\in\mbb{V}_l$, the RMS value of the voltage does not vanish, $V^\ts{Rms}(v_l)\neq 0$. In addition, the linear map is a matrix function $\tilde{h}:\Rset\rightarrow\Rset^{3\times 3}$ whose determinant satisfies $\det(\tilde{h}(v_l)) = 3\sqrt{3}V^\ts{Rms}(v_l)\neq 0$; as a result, the map is invertible for all $v_l\in\mbb{V}_l$. 
+
+Following the definition of the $dq$ transformation of section~\ref{sec:MG_model:freq_sync}, and exploiting the structure of the power calculations, the constant power transform can be written as $\tilde{h}(v_l) = {V^\ts{Rms}(v_l)} T_\ts{dq}(\delta(v_l))$ yielding the desired expression  
+\begin{equation*}
+		h_l(v_l) = \tilde{h}^{-1}(v_l) = \frac{1}{V^\ts{Rms}(v_l)}T_\ts{dq}^\top(\delta(v_l)).
+\end{equation*}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
