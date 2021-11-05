@@ -24,64 +24,61 @@
 % Mathematical Tool
 \usepackage{amssymb,amsfonts,commath}
 \usepackage[bb=boondox]{mathalfa}
-\usepackage{mathdots}
+% \usepackage{mathdots}
+% \usepackage{etoolbox}
+% \makeatletter
+% \patchcmd{\@makecaption}
+%   {\scshape}
+%   {}
+%   {}
+%   {}
+% \makeatletter
+% \patchcmd{\@makecaption}
+%   {\\}
+%   {.\ }
+%   {}
+%   {}
+%   \makeatother
+% \def\tablename{Table}
+% % circuits
+% \usepackage[americanvoltages,siunitx]{circuitikz}
 
 
+% % TIKZ package
+% \usepackage{tikz}
+% \usepackage{pgfplots}
+% \pgfplotsset{every axis/.append style={line width=1pt}}
+% \usetikzlibrary{shapes, fit, decorations.markings, matrix, plotmarks, positioning, fit, spy, patterns, shadows, calc, backgrounds, arrows}
+% \usetikzlibrary{arrows.meta}
+% \usepackage{tikzscale}
+% \usepackage{subfig}
 
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd{\@makecaption}
-  {\scshape}
-  {}
-  {}
-  {}
-\makeatletter
-\patchcmd{\@makecaption}
-  {\\}
-  {.\ }
-  {}
-  {}
-  \makeatother
-\def\tablename{Table}
-% circuits
-\usepackage[americanvoltages,siunitx]{circuitikz}
+% \pgfplotsset{every tick label/.append style={font=\tiny}}
 
+% \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+% \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+% \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+% \definecolor{mycolor4}{rgb}{0.49400,0.18400,0.55600}%
+% \definecolor{mycolor5}{rgb}{0.46600,0.67400,0.18800}%
+% \definecolor{mycolor6}{rgb}{0.30100,0.74500,0.93300}%
+% \definecolor{mycolor7}{rgb}{0.63500,0.07800,0.18400}%
 
-% TIKZ package
-\usepackage{tikz}
-\usepackage{pgfplots}
-\pgfplotsset{every axis/.append style={line width=1pt}}
-\usetikzlibrary{shapes, fit, decorations.markings, matrix, plotmarks, positioning, fit, spy, patterns, shadows, calc, backgrounds, arrows}
-\usetikzlibrary{arrows.meta}
-\usepackage{tikzscale}
-\usepackage{subfig}
+% %\pgfplotsset{every axis/.append style={
+% %                    axis x line=middle,    % put the x axis in the middle
+% %                    axis y line=middle,    % put the y axis in the middle
+% %                    axis line style={<->}, % arrows on the axis
+% %                    label style={font=\tiny},
+% %                    tick label style={font=\tiny}  
+% %                    }}
 
-\pgfplotsset{every tick label/.append style={font=\tiny}}
-
-\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
-\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
-\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
-\definecolor{mycolor4}{rgb}{0.49400,0.18400,0.55600}%
-\definecolor{mycolor5}{rgb}{0.46600,0.67400,0.18800}%
-\definecolor{mycolor6}{rgb}{0.30100,0.74500,0.93300}%
-\definecolor{mycolor7}{rgb}{0.63500,0.07800,0.18400}%
-
-%\pgfplotsset{every axis/.append style={
-%                    axis x line=middle,    % put the x axis in the middle
-%                    axis y line=middle,    % put the y axis in the middle
-%                    axis line style={<->}, % arrows on the axis
-%                    label style={font=\tiny},
-%                    tick label style={font=\tiny}  
-%                    }}
-
-% enumerate and equations
-\usepackage{enumerate}
-%\AtBeginEnvironment{align}{\setcounter{subeqn}{0}}% Reset subequation number at start of align
-\newcounter{subeqn} \renewcommand{\thesubeqn}{\theequation\alph{subeqn}}%
-\newcommand{\subeqn}{%
-  \refstepcounter{subeqn}% Step subequation number
-  \tag{\thesubeqn}% Label equation
-}
+% % enumerate and equations
+% \usepackage{enumerate}
+% %\AtBeginEnvironment{align}{\setcounter{subeqn}{0}}% Reset subequation number at start of align
+% \newcounter{subeqn} \renewcommand{\thesubeqn}{\theequation\alph{subeqn}}%
+% \newcommand{\subeqn}{%
+%   \refstepcounter{subeqn}% Step subequation number
+%   \tag{\thesubeqn}% Label equation
+% }
 
 
 % theorems
@@ -144,10 +141,7 @@
 \bibliographystyle{IEEEtran}
 
 %
-%\newcommand{\myreferences}{/Users/Pablo/Dropbox/Reports/library}
-\newcommand{\myreferences}{/Users/prbalm/Dropbox/Reports/library.bib}
-%\newcommand{\myreferences}{library}
-%\newcommand{\myreferences}{extracted}
+
 
 
 \makeatletter
@@ -228,123 +222,14 @@ The network of interlinking DC/AC converters obeys the following differential-al
     C_{f,\mu} \diff{v_{f,\mu}}{t} &= -Y_{f,\mu}(\omega_\mu) v_{f,\mu} + i_{f,\mu} - i_{\mu}\\
     L_\mu \diff{i_{\mu}}{t} &= -Z_\mu(\omega_\mu) i_{\mu} + v_{f,\mu} -T_{dq}(\alpha_\mu)v_{\mu}\\
     \diff{\alpha_\mu}{t}  &= \omega_\mu\\
-    L_\mc{E}\diff{i_\mc{E}}{t} & = -r_\mc{E}i_\mc{E} + \mc{B}v\\
+    L_\mc{E}\diff{i_\mc{E}}{t} & = -r_\mc{E}i_\mc{E} + \mc{B}^\top\otimes\mbb{I}_3 v\\
     0  &= T^{-1}(\alpha_\mu)i_\mu - \mc{B}_\mu\otimes\mbb{I}_3 i_\mc{E} - i_{L,\mu}\label{eq:alg_eq}
 \end{align}
 \label{eq:mg_AC_model}
 \end{subequations}
 %
-In this model, the connecting voltages $v = (v_1,\ldots,v_M)\in\Rset^{3M}$ represent algebraic variables; note that these do not appear directly in the algebraic equation~\eqref{eq:alg_eq} but appear in its derivative which makes the system at least of index 1. The differential variables contain both local variables $(V_\mu,i_{f,\mu},v_{f,\mu},i_\mu,\alpha_\mu)\in\Rset^{7}\times\mbb{S}^{1}$ for each $\mu\in\mc{V}$ and network variables $i_\mc{E}\in\Rset^{3M_\mc{E}}$ which correspond to DC voltage, filter currents, filter voltages, connection currents, and line currents respectively. The current drawn by each load $i_{L,\mu}$ appears in the algebraic constraint which relates the input from a source $T_{dq}^{-1}i_{mu}$ and the network contribution $\mc{B}_{\mu}i_\mc{E}$ where $\mc{B}_\mu$ correspond to the node-edge incidence matrix  $\mu^\ts{th}$ row. The controllable inputs are given by $u_\mu = (m_u,\omega_\mu)$ for each $\mu\in\mc{V}$ and correspond to each converter modulation indices and frequencies at each node. The exogenous inputs are given the load consumption $i_L\in\Rset^{3M}$, and renewable input power $P \in \Rset^{M}$.
+In this model, the connecting voltages $v = (v_1,\ldots,v_M)\in\Rset^{3M}$ represent algebraic variables; note that these do not appear directly in the algebraic equation~\eqref{eq:alg_eq} but appear in its derivative which makes the system at least of index 1. The differential variables contain both local variables $(V_\mu,i_{f,\mu},v_{f,\mu},i_\mu,\alpha_\mu)\in\Rset^{7}\times\mbb{S}^{1}$ for each $\mu\in\mc{V}$ and network variables $i_\mc{E}\in\Rset^{3M_\mc{E}}$ which correspond to DC voltage, filter currents, filter voltages, connection currents, and line currents respectively. The current drawn by each load $i_{L,\mu}$ appears in the algebraic constraint which relates the input from a source $T_{dq}^{-1}i_{\mu}$ and the network contribution $\mc{B}_{\mu}\otimes\mbb{I}_3i_\mc{E}$ where $\mc{B}_\mu$ correspond to the node-edge incidence matrix  $\mu^\ts{th}$ row. The controllable inputs are given by $u_\mu = (m_u,\omega_\mu)$ for each $\mu\in\mc{V}$ and correspond to each converter modulation indices and frequencies at each node. The exogenous inputs are given the load consumption $i_L\in\Rset^{3M}$, and renewable input power $P = (P_1,\ldots,P_M) \in \Rset^{M}$.
 
-
-
-The optimal control problem, in its most general form, can then be casted as
-%
-\begin{equation}
-	V^0_T(z,d) = \min\limits_{u}\int_0^T\ell(z,u)dt 	
-\label{eq:ocp_cost}
-\end{equation}
-%
-subject to 
-%
-\begin{subequations}
-\begin{align}
-	u\colon &[S,T]\to\Rset^m\ts{ measurable}\\
-	E\dot{z}& = h(z,u,d),\quad \ts{a.e.}\\
-	z(t) &\in\mbb{Z}; \quad u(t)\in\mbb{U}\quad \ts{a.e.}
-\end{align}
-\label{eq:ocp_constraints}
-\end{subequations}
-%
-
-
-\[\bar{v} = v_I + A_C i +M\sin\sigma \]
-
-\[\theta_i = \arctan\frac{v_{q,i}}{v_{d,i}} \]
-
-\[\dot{\theta}_i =\frac{\dot{v}_{q,i}v_{d,i} - \dot{v}_{d,i}v_{q,i}}{v_{d,i}^2+v_{q,i}^2}\]
-
-\[
-J\dot{v} = \omega v
-\]
-
-
-the solution of this equation 
-\[v = \bar{V}\xi(\delta) - A_Ci - M\sin\sigma\]
-
-
-
-\subsection{Model in the $abc$ framework}
-\label{sec:model_abc}
-%
-
-
-The inverter dynamics are
-%
-\begin{subequations}
-\begin{align}
-\diff{\varphi_i}{t} =& -r_i L_i^{-1}\varphi_i - C_i^{-1}q_i + u_{V,i}\xi_i(\alpha_i),\label{eq:dyn_line_ii}\\
-\diff{\alpha_i}{t} =& u_{\alpha,i},\label{eq:dyn_line_ai}
-\end{align}
-\label{eq:dyn_inv_c_abc}	
-\end{subequations}
-%
-where $\xi_i\colon\mbb{S}^1\to\Rset^3$ is a function defined on the unit circle such that $\xi_i(\alpha_i) = (\sin{\alpha_i},\sin{(\alpha_i - \frac{2\pi}{3})},\sin{(\alpha_i + \frac{2\pi}{3})})\in\Rset^3$ for each $i\in\mc{V}$. The control inputs are $u = (u_{V,i},u_{\alpha,i})\in \Rset^2$ and correspond to the amplitude and frequency of the inverter output voltage. 
-
-The model of the interconnection between two nodes $i,j\in\mc{V}$ in the $abc$ framework is
-%
-\begin{subequations}
-\begin{align}
-\diff{q_i}{t} =& -g_i C_i^{-1}q_i + i_i - i_e -i_{Li},\label{eq:dyn_line_vi}\\
-\diff{q_j}{t} =& -g_j C_j^{-1} q_j + i_j + i_e-i_{Lj},\label{eq:dyn_line_vj}\\
-\diff{\varphi_e}{t} =& -r_e L_e^{-1} \varphi_e + v_j - v_j,\label{eq:dyn_line_ie}
-\end{align}
-\label{eq:dyn_line_abc}	
-\end{subequations}
-%
-where the states for each $i\in\mc{V}$ and $e\in\mc{E}$ are $q_i\in\Rset^3$ and $\varphi_e\in\Rset^3$ respectively; these represent capacitor charge at each node and inductor fluxes through the lines. 
-%
-%
-\begin{subequations}
-\begin{align}
-  \diff{\varphi }{t} & = -r \pdiff{H}{\varphi } + u_E,\label{eq:lines_pH_dyn}\\  
-  y_E & = \pdiff{H}{\varphi },\label{eq:lines_pH_out}
-\end{align}
-\label{eq:lines_pH_model} 
-\end{subequations}
-%
-where $\varphi  = (\varphi_e)_{e\in\mc{E}}$ is the collection of all the fluxes through the \ac{MG} interconnection lines; the inputs are the voltage across the line, and output the current flowing through it. Similarly for all \ac{MG} nodes
-%
-\begin{subequations}
-\begin{align}
-  \diff{q_{I}}{t} & = -g_{I}\pdiff{H}{q } + G_Iu_I,\label{eq:node_pH_dyn}\\  
-  y_I & = G_I^\top\pdiff{H}{q },\label{eq:node_pH_out}
-\end{align}
-\label{eq:node_pH_model} 
-\end{subequations}
-%
-where $q  = (q_i)_{i\in\mc{V}}$ is a vector of charges for the entire network. The input matrix is $G_I^\top = [\mbb{I}_{3M}~ -\mbb{I}_{3M}~ -B]$, and associated inputs are $u_I = (i ,i_L,i_E)$ the current injected from the controlled \ac{DER}s, drawn by the local loads, and the current circulating through the lines. These inputs induce the following outputs: $y_I = (v ,-v ,-Bv )$ which are the voltages at each node, and voltage differences. The Hamiltonian for the network, \ie for all nodes $i\in\mc{V}$ and lines $e\in\mc{E}$, is a quadratic function of the states 
-%
-\begin{equation}
-  H = \frac{1}{2}\bigl ( q^\top C^{-1}q +\varphi^\top L^{-1}\varphi \bigr ) 
-\label{eq:Hamiltonian_MG}  
-\end{equation}
-%
-The feedback interconnection between~\eqref{eq:node_pH_model} and~\eqref{eq:lines_pH_model}, which is also a port-Hamiltonian system \cite{Cervera2007a}, can be characterised by $u_E = - y_{3I}$ and $u_{3I} = y_E$ yielding
-%
-\begin{subequations}
-\begin{align}
-  \diff{\tilde{x}}{t} & = \underbrace{\begin{bmatrix}-g & -B^\top\\ B & -r \end{bmatrix}}_{J-R} \pdiff{H}{\tilde{x}} + G\begin{bmatrix} i\\i_L\end{bmatrix} \\
-   y &= G^\top \pdiff{H}{\tilde{x}}
-\end{align}
-\label{eq:line_node_interconnection}	
-\end{subequations}
-%
-where 
-\[
-G = \begin{bmatrix}\mbb{I}_{3M} & -\mbb{I}_{3M}\\\mbb{0}_{3M_E \times 3M } & \mbb{0}_{3M_E \times 3M} \end{bmatrix},
-\]
-and the joint state vector $\tilde{x} = (q,\varphi)$. The available inputs $u= (i,i_L)$, and respective outputs, allow us to interconnect the obtained \ac{MG} model to different types of loads via the input-output pair $(i_L,-\pdiff{H}{q})$. 
 
 In this paper we assume that each \ac{DER} is in closed-loop with their respective primary controllers [CITE PAPERS FROM THE GROUP], as a result the current injected by each \ac{DER} $i\in\mc{V}$ can be expressed as a controlled $3-$phase current source
 %
@@ -503,9 +388,16 @@ and $h_l\colon\Rset^{3}\times\Rset^{2}\rightarrow\Rset^{3}$ is a function of loa
 	\end{equation}
 	%
 	\label{lem:cpl_current}
+
+
 \end{lemma}
 
-\bibliography{\myreferences}
+\bibliography{extracted}
+
+%\newcommand{\myreferences}{/Users/Pablo/Dropbox/Reports/library}
+%\newcommand{\myreferences}{/Users/prbalm/Dropbox/Reports/library.bib}
+%\newcommand{\myreferences}{library}
+%\newcommand{\myreferences}{}
 \appendix
 %
 %
